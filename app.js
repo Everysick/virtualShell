@@ -24,7 +24,7 @@ io.sockets.on('connection', function (socket) {
     exec(data, function(err, console_output, stderr){
       //console.log(stderr);
       if(stderr != ""){
-        socket.emit('console', "$ " + data + "\n" + std);
+        socket.emit('console', "$ " + data + "\n" + stderr);
       }else{
         socket.emit('console', "$ " + data + "\n" + console_output);
       }
