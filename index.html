@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <title>SocketConsole</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost');
+      function submit_command() {
+         if( window.event.keyCode != 13 ){
+            return;
+          }
+        var command = $('#console').val();
+        socket.emit('command', command);
+        $('#console').val("");
+      }
+      socket.on('pwd', function (pwd) {
+        $('#prompt').html(pwd);
+      });
+
+      socket.on('console', function (console_ret) {
+        console_ret += "\n\n";
+        $('#log').append(console_ret);
+      });
+    </script>
+  </head>
+  <body>
+    <h1>virtual_console</h1>
+    <p>
+      <input type="text" id="console" size="40", onKeyPress="submit_command();">
+    </p>
+    
+    <p>
+      <div id="prompt"></div>
+    </p>
+
+    <p>
+      <textarea id="log" style="width: 500px; height: 300px;"></textarea>
+    </p>
+  </body>
+</html>
